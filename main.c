@@ -2,11 +2,17 @@
 #include <stdlib.h>
 
 #include "vec.h"
+#include "linkedlist.h"
 
 static int op = 0;
 char *opname;
 
-int main(void)
+int main(int argc, char** argv)
+{
+
+}
+
+void test_vec(void)
 {
     vec_t *vec = vec_create(sizeof(int));
     if (vec == NULL) {
