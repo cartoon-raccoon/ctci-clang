@@ -4,10 +4,10 @@
 #include "linkedlist.h"
 
 // private function prototypes for abstraction
-static int node_push(node *node, void *item);
-static int node_append(node *node, void *item);
-static int node_insert(node *node, size_t idx, size_t len, void *item);
-static void *node_get(node *node, size_t idx, size_t len);
+static int node_push(node *node, void *item, size_t *len);
+static int node_append(node *node, void *item, size_t *len);
+static int node_insert(node *node, size_t idx, size_t *len, void *item);
+static void *node_get(node *node, size_t idx, size_t *len);
 
 llist_t *llist_create() 
 {
@@ -24,39 +24,25 @@ llist_t *llist_create()
 
 int list_push(llist_t *list, void *item)
 {
-    if (node_push(list->head, item)) {
-        list->len++;
-        return 1;
-    }
-    return 0;
+    return node_push(list->head, item, &list->len);
 }
 
 int list_append(llist_t *list, void *item)
 {
-    if (node_append(list->head, item)) {
-        list->len++;
-        return 1;
-    }
-
-    return 0;
+    return node_append(list->head, item, &list->len);
 }
 
 int list_insert(llist_t *list, size_t idx, void *item) 
 {
-    if (node_insert(list->head, idx, list->len, item)) {
-        list->len++;
-        return 1;
-    }
-
-    return 0;
+    return node_insert(list->head, idx, &list->len, item);
 }
 
 void *list_get(llist_t *list, size_t idx)
 {
-    return node_get(list->head, idx, list->len);
+    return node_get(list->head, idx, &list->len);
 }
 
-static int node_push(node *nd, void *item) 
+static int node_push(node *nd, void *item, size_t *len) 
 {
     // allocating a new node
     node *new = malloc(sizeof(node));
@@ -69,11 +55,12 @@ static int node_push(node *nd, void *item)
         new->next = nd->next;
     }
     nd = new;
+    *len += 1;
 
     return 1;
 }
 
-static int node_append(node *nd, void *item)
+static int node_append(node *nd, void *item, size_t *len)
 {
     // setting a temp variable as a cursor
     node *cur = nd;
@@ -97,18 +84,19 @@ static int node_append(node *nd, void *item)
     new->data = item;
 
     cur->next = new;
+    *len += 1;
 
     return 1;
 }
 
-static int node_insert(node *nd, size_t idx, size_t len, void *item)
+static int node_insert(node *nd, size_t idx, size_t *len, void *item)
 {
-    if (idx >= len) return 1;
+    if (idx >= *len) return 0;
 
     node *cur = nd;
 
     for (int i = 0; i <= idx; i++) {
-        if (cur == NULL) return 1;
+        if (cur == NULL) return 0;
         cur = cur->next;
     }
 
@@ -119,14 +107,15 @@ static int node_insert(node *nd, size_t idx, size_t len, void *item)
     new->data = item;
 
     cur->next = new;
+    len += 1;
 
     return 1;
 }
 
-static void *node_get(node *nd, size_t idx, size_t len)
+static void *node_get(node *nd, size_t idx, size_t *len)
 {
     // check for ioob
-    if (idx >= len) return NULL;
+    if (idx >= *len) return NULL;
 
     node *cur = nd;
 
