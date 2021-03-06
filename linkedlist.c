@@ -8,7 +8,7 @@ static int node_append(node *node, void *item);
 llist_t *llist_create() 
 {
     llist_t *list = malloc(sizeof(llist_t));
-    if (list == NULL) { return NULL; }
+    if (list == NULL) return NULL;
 
     // setting initial values
     list->head->next = NULL;
@@ -41,7 +41,7 @@ static int node_push(node *nd, void *item)
 {
     // allocating a new node
     node *new = malloc(sizeof(node));
-    if (new == NULL) { return 0; }
+    if (new == NULL) return 0;
     new->data = item;
     new->next = NULL;
 
@@ -63,11 +63,11 @@ static int node_append(node *nd, void *item)
         cur = cur->next;
     }
     // asserting that cursor->next is null
-    if (cur->next != NULL) { abort(); }
+    if (cur->next != NULL) abort();
 
     // allocating and initializing a new node
     node *new = malloc(sizeof(node));
-    if (new == NULL) { return 0; }
+    if (new == NULL) return 0;
     new->next = NULL;
     new->data = item;
 

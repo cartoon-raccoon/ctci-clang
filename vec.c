@@ -18,7 +18,7 @@ vec_t *vec_with_cap(size_t elem_size, size_t cap)
 {
     vec_t *vec = malloc(sizeof(vec_t));
 
-    if (vec == NULL) { return NULL; }
+    if (vec == NULL) return NULL;
 
     // initialization of basic values
     vec->elem_size = elem_size;
@@ -50,9 +50,7 @@ int vec_insert(vec_t *vec, const void *item, size_t idx)
     
     // if out of bounds, item is null, or out of memory
     if (idx > vec->len || !item || !vec_ensure_capacity(vec))
-    {
         return 0;
-    }
 
     // find the byte offset into the vector
     char * const insert_at = vec->ptr + (idx * vec->elem_size);
@@ -73,13 +71,13 @@ int vec_insert(vec_t *vec, const void *item, size_t idx)
 
 void *vec_get(vec_t *vec, size_t idx)
 {
-    if (vec == NULL) { return NULL; }
+    if (vec == NULL) return NULL;
     return vec->ptr + (idx * vec->elem_size);
 }
 
 int vec_remove(vec_t *vec, size_t idx)
 {
-    if (vec == NULL) { return 0; }
+    if (vec == NULL) return 0;
 
     // finding the element to remove
     char * const dest = vec->ptr + (idx * vec->elem_size);
@@ -97,12 +95,12 @@ int vec_remove(vec_t *vec, size_t idx)
 int vec_shrink(vec_t *vec)
 {
     // check for null
-    if (vec == NULL) { return 0; }
+    if (vec == NULL) return 0;
 
     // reallocate the vec pointer
     vec->ptr = realloc(vec->ptr, vec->len * vec->elem_size);
     // null check
-    if (vec->ptr == NULL) { return 0; }
+    if (vec->ptr == NULL) return 0;
     // setting capacity to match size
     vec->cap = vec->len;
 
@@ -117,7 +115,7 @@ void vec_destroy(vec_t *vec)
 
 static int vec_ensure_capacity(vec_t *vec) 
 {
-    if (vec == NULL || vec->len > vec->cap) { return 0; } 
+    if (vec == NULL || vec->len > vec->cap) return 0;
     // if vec is at capacity
     if (vec->cap == vec->len)
     {
@@ -131,7 +129,7 @@ static int vec_ensure_capacity(vec_t *vec)
         vec->ptr = realloc(vec->ptr, vec->cap * vec->elem_size);
     }
 
-    if (vec->ptr == NULL) { return 0; }
+    if (vec->ptr == NULL) return 0;
 
     return 1;
 }
