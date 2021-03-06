@@ -1,9 +1,12 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 #include "linkedlist.h"
 
+// private function prototypes for abstraction
 static int node_push(node *node, void *item);
 static int node_append(node *node, void *item);
+static void *node_get(node *node, size_t idx, size_t len);
 
 llist_t *llist_create() 
 {
@@ -35,6 +38,12 @@ int list_append(llist_t *list, void *item)
     }
 
     return 0;
+}
+
+
+void *list_get(llist_t *list, size_t idx)
+{
+    return node_get(list->head, idx, list->len);
 }
 
 static int node_push(node *nd, void *item) 
@@ -74,4 +83,21 @@ static int node_append(node *nd, void *item)
     cur->next = new;
 
     return 1;
+}
+
+static void *node_get(node *nd, size_t idx, size_t len)
+{
+    // check for ioob
+    if (idx >= len) return NULL;
+
+    node *cur = nd;
+
+    // traversing the list
+    for (int i = 0; i <= idx; i++) {
+        if (cur == NULL) return NULL;
+        cur = cur->next;
+    }
+    
+    // if data is NULL we let the user handle it
+    return cur->data;
 }
