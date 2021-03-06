@@ -40,7 +40,6 @@ int list_append(llist_t *list, void *item)
     return 0;
 }
 
-
 void *list_get(llist_t *list, size_t idx)
 {
     return node_get(list->head, idx, list->len);
@@ -73,6 +72,12 @@ static int node_append(node *nd, void *item)
     }
     // asserting that cursor->next is null
     if (cur->next != NULL) abort();
+
+    // if cur's data is NULL, it's the only element
+    if (cur->data == NULL) {
+        cur->data = item;
+        return 0;
+    }
 
     // allocating and initializing a new node
     node *new = malloc(sizeof(node));
