@@ -21,6 +21,8 @@ llist_t *llist_create();
 int list_push(llist_t *list, void *item);
 // Appends a new item to the back of the list
 int list_append(llist_t *list, void *item);
+// Insert an item into the list at a certain index
+int list_insert(llist_t *list, size_t idx, void *item);
 // Get a pointer to an item in the linked list
 void *list_get(llist_t *list, size_t idx);
 // Removes an item from index idx in the list
