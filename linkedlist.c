@@ -128,3 +128,8 @@ static void *node_get(node *nd, size_t idx, size_t *len)
     // if data is NULL we let the user handle it
     return cur->data;
 }
+
+static void *node_remove(node *nd, size_t idx, size_t len)
+{
+
+}

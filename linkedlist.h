@@ -26,7 +26,7 @@ int list_insert(llist_t *list, size_t idx, void *item);
 // Get a pointer to an item in the linked list
 void *list_get(llist_t *list, size_t idx);
 // Removes an item from index idx in the list
-int list_remove(llist_t *list);
+void *list_remove(llist_t *list, size_t idx);
 // deallocates the link list and everything in it
 void list_destroy(llist_t *list);
 
